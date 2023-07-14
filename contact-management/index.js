@@ -1,4 +1,6 @@
 const express = require('express');
+const connectDB = require('./config/dbConnection');
+const errorHandler = require('./middleware/errorsHandler');
 
 const app = express();
 
@@ -11,6 +13,8 @@ app.get('/api/contacts', (req, res) => {
 })
 */
 
+connectDB()
+
 //add json parser, to read json body from requestes 
 app.use(express.json())  //client data -x-> server ==> client data --parser--> server
 
@@ -18,6 +22,8 @@ app.use(express.json())  //client data -x-> server ==> client data --parser--> s
 /*use('/url') same with requestMapping of restcontroller in springboot
 the /url will concat with require routes to become complete urls*/
 app.use('/api/contacts', require('./routes/contactRoutes'))
+
+app.use(errorHandler)
 
 app.listen(port, () => {
     console.log(`The server is running on port ${port}`);

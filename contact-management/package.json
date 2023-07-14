@@ -24,8 +24,10 @@
   },
   "homepage": "https://github.com/KimHong-Vo/nodejs_contact_management#readme",
   "dependencies": {
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "express-async-handler": "^1.2.0"
+    "express-async-handler": "^1.2.0",
+    "mongoose": "^7.3.4"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
