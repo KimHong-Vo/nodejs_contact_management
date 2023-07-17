@@ -1,11 +1,11 @@
-const asyncHandler = require('express-async-handler')
-const contacts = require('../model/contacts-model')
+import asyncHandler from 'express-async-handler'
+import contactsModel from '../model/contacts-model.js'
 
 //desc Get all contacts
 //route GET /api/contacts
 //access public
 const getAllContacts = asyncHandler(async (req, res) => {
-    res.status(200).json(await contacts.find())
+    res.status(200).json(await contactsModel.find())
 })
 
 //desc Get a contacts
@@ -13,7 +13,7 @@ const getAllContacts = asyncHandler(async (req, res) => {
 //access public
 const getAContacts = asyncHandler(async (req, res) => {
     try {
-        const contact = await contacts.findById(req.params.id)
+        const contact = await contactsModel.findById(req.params.id)
         if(contact){
             return res.status(200).json(contact)
         } else {
@@ -32,7 +32,7 @@ const getAContacts = asyncHandler(async (req, res) => {
 //route PUT /api/contacts/:id
 //access public
 const updateAContacts = asyncHandler(async (req, res) => {
-    const updatedContact = await contacts.findByIdAndUpdate(req.params.id, req.body, {new: false})
+    const updatedContact = await contactsModel.findByIdAndUpdate(req.params.id, req.body, {new: false})
     if(updatedContact){
         return res.status(200).json({message: `Update contacts for ${req.params.id} succesfully`, data: updatedContact})
     }
@@ -52,7 +52,7 @@ const addAContacts = asyncHandler(async (req, res) => {
         //for standart - the error response will send to client in HTML form format
         throw new Error("All fiels are mandatory!")
     }
-    const contact = await contacts.create({
+    const contact = await contactsModel.create({
         name,
         email,
         phone
@@ -64,9 +64,9 @@ const addAContacts = asyncHandler(async (req, res) => {
 //route DELETE /api/contacts/:id
 //access public
 const deleteAContacts = asyncHandler( async (req, res) => {
-    const contact = await contacts.findById(req.params.id)
+    const contact = await contactsModel.findById(req.params.id)
     if(contact){
-        await contacts.deleteOne(contact)
+        await contactsModel.deleteOne(contact)
         return res.status(200).json({message: `Delete contacts for ${req.params.id}`, data: contact})
     } else {
         res.status(404)
@@ -74,4 +74,4 @@ const deleteAContacts = asyncHandler( async (req, res) => {
     }
 })
 
-module.exports = {getAllContacts, getAContacts, updateAContacts, addAContacts , deleteAContacts}
+export {getAllContacts, getAContacts, updateAContacts , deleteAContacts, addAContacts}

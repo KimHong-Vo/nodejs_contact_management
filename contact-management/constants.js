@@ -6,4 +6,4 @@ const constants = {
     FORBIDDEN: 403
 }
 
-module.exports = constants
+export default constants
