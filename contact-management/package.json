@@ -5,9 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node ./build/index.js",
+    "dev": "nodemon ./src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -25,10 +26,14 @@
   },
   "homepage": "https://github.com/KimHong-Vo/nodejs_contact_management#readme",
   "dependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.4.2",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
-    "mongoose": "^7.3.4"
+    "mongoose": "^7.3.4",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
