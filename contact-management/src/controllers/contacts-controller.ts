@@ -1,11 +1,13 @@
 import asyncHandler from 'express-async-handler'
 import contactsModel from '../model/contacts-model.ts'
+import { Contacts } from '../model/contacts.ts'
 
 //desc Get all contacts
 //route GET /api/contacts
 //access public
 export const getAllContacts = asyncHandler(async (req, res) => {
-    res.status(200).json(await contactsModel.find())
+    // res.status(200).json(await contactsModel.find())
+    res.status(200).json(await Contacts.findAll() as Contacts[])
 })
 
 //desc Get a contacts
@@ -13,7 +15,8 @@ export const getAllContacts = asyncHandler(async (req, res) => {
 //access public
 export const getAContacts = asyncHandler(async (req, res) => {
     try {
-        const contact = await contactsModel.findById(req.params.id)
+        // const contact = await contactsModel.findById(req.params.id)
+        const contact: Contacts|null = await Contacts.findByPk(req.params.id)
         if(contact){
             res.status(200).json(contact)
         } else {
@@ -32,7 +35,9 @@ export const getAContacts = asyncHandler(async (req, res) => {
 //route PUT /api/contacts/:id
 //access public
 export const updateAContacts = asyncHandler(async (req: Request|any, res:Response|any) => {
-    const updatedContact = await contactsModel.findByIdAndUpdate(req.params.id, req.body, {new: false})
+    // const updatedContact = await contactsModel.findByIdAndUpdate(req.params.id, req.body, {new: false})
+    await Contacts.update({...req.body}, {where: req.params.id})
+    const updatedContact: Contacts|null = await Contacts.findByPk(req.param.id)
     if(updatedContact){
         return res.status(200).json({message: `Update contacts for ${req.params.id} succesfully`, data: updatedContact})
     }
@@ -52,11 +57,12 @@ export const addAContacts = asyncHandler(async (req: Request|any, res:Response|a
         //for standart - the error response will send to client in HTML form format
         throw new Error("All fiels are mandatory!")
     }
-    const contact = await contactsModel.create({
-        name,
-        email,
-        phone
-    })
+    // const contact = await contactsModel.create({
+    //     name,
+    //     email,
+    //     phone
+    // })
+    const contact = await Contacts.create({name, email, phone})
     return res.status(200).json(contact)
 })
 
@@ -64,10 +70,13 @@ export const addAContacts = asyncHandler(async (req: Request|any, res:Response|a
 //route DELETE /api/contacts/:id
 //access public
 export const deleteAContacts = asyncHandler( async (req: Request|any, res:Response|any) => {
-    const contact = await contactsModel.findById(req.params.id)
-    if(contact){
-        await contactsModel.deleteOne({id: req.params.id})
-        return res.status(200).json({message: `Delete contacts for ${req.params.id}`, data: contact})
+    // const deletedContact = await contactsModel.findById(req.params.id)
+    const {id} = req.params
+    const deletedContact: Contacts|null = await Contacts.findByPk(id)
+    if(deletedContact){
+        // await contactsModel.deleteOne({id: req.params.id})
+        await Contacts.destroy({where: {id}})
+        return res.status(200).json({message: `Delete contacts for ${req.params.id}`, data: deletedContact})
     } else {
         res.status(404)
         throw new Error('Contact not found')
