@@ -1,4 +1,5 @@
-const constants = {
+import crypto from 'crypto'
+export const constants = {
     VALIDATION_ERROR: 400,
     NOT_FOUND: 404,
     UNAUTHORIZED: 401,
@@ -6,4 +7,4 @@ const constants = {
     FORBIDDEN: 403
 }
 
-export default constants
+export const encryptCipher = crypto.createCipheriv('aes-128-cbc', process.env.CYPHER_KEY)
