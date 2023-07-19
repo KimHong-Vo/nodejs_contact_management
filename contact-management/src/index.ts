@@ -2,8 +2,8 @@ import express from 'express';
 import connectDB from './config/dbConnection.ts';
 import errorHandler from './middleware/errorsHandler.ts';
 import contactRouter from './routes/contactRoutes.ts';
+import userRoute from './routes/userRoutes.ts';
 import sqlConnection from './config/mysqlDbConnection.ts';
-import { log } from 'console';
 
 const app = express();
 
@@ -31,9 +31,10 @@ sqlConnection.sync().then(()=>{
 app.use(express.json())  //client data -x-> server ==> client data --parser--> server
 
 //Define Routes
-/*use('/url') same with requestMapping of restcontroller in springboot
-the /url will concat with require routes to become complete urls*/
+/* use('/url') same with requestMapping of restcontroller in springboot
+the /url will concat with require routes to become complete urls */
 app.use('/api/contacts', contactRouter)
+app.use('/api/user', userRoute)
 
 app.use(errorHandler)
 

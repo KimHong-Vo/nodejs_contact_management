@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize-typescript";
 import { Contacts } from "../model/contacts.ts";
+import { User } from "../model/user.ts";
 
 const sqlConnection = new Sequelize({
     dialect: 'mysql',
@@ -8,7 +9,7 @@ const sqlConnection = new Sequelize({
     password: 'admin123',
     database: 'my_contacts',
     logging: false,
-    models: [Contacts]
+    models: [Contacts, User]
 });
 
 
