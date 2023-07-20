@@ -1,4 +1,5 @@
-import { Table, Model, Column, DataType } from 'sequelize-typescript';
+import { Table, Model, Column, DataType, HasMany } from 'sequelize-typescript';
+import { Contacts } from './contacts.ts';
 
 @Table({
     timestamps: true,
@@ -31,5 +32,6 @@ export class User extends Model{
     })
     age!: number
 
-
+    @HasMany(() => Contacts)
+    contacts!: Contacts[];
 }

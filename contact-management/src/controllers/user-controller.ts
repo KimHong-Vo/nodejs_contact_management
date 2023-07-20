@@ -3,7 +3,7 @@ import { User } from '../model/user.ts'
 import crypto from 'crypto' //using for endcode decode - nodejs crypto for detail
 import { Buffer } from 'buffer'
 import { myCrypto, responseStatuses, ACCESSTOKEN_SECRET } from '../constants.ts'
-import pkg from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 
 //desc Create a user
 //route POST /api/user/register
@@ -42,8 +42,7 @@ export const loginUser = asynHandler(async (req: Request|any, res: Response|any)
     
     //check correct password  
     if(user && decryptPassword(user.password) === password){
-        console.log(`user: ${user}`);
-        const {sign} = pkg
+        const {sign} = jwt
         const token = sign({
             user: {
                 email: user.email,
@@ -52,7 +51,7 @@ export const loginUser = asynHandler(async (req: Request|any, res: Response|any)
             }
             },
             ACCESSTOKEN_SECRET,
-            {expiresIn: '1m'}
+            {expiresIn: '30m'}
         )
         return res.status(responseStatuses.OK).json({message: 'Login successfully', accessToken: token})
     }else {

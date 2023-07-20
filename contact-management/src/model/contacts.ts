@@ -1,4 +1,5 @@
-import { Table, Model, Column, DataType } from 'sequelize-typescript';
+import { Table, Model, Column, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { User } from './user.ts';
 
 @Table({
     timestamps: false,
@@ -24,4 +25,10 @@ export class Contacts extends Model{
     })
     phone!: String
 
+    @ForeignKey(() => User)
+    @Column({allowNull: false})
+    userID!: number;
+  
+    @BelongsTo(() => User)
+    user!: User;
 }

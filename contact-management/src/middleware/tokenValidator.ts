@@ -3,6 +3,7 @@ import asyncHandler from 'express-async-handler'
 import { ACCESSTOKEN_SECRET } from '../constants.ts'
 
 const tokenValidator = asyncHandler(async(req, res, next) => {
+    
     const reqAuth = req.headers.authorization
     if(reqAuth && reqAuth.startsWith('Bearer')){
         const token = reqAuth.split(' ')[1]
