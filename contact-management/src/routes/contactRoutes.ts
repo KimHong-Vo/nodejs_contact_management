@@ -1,5 +1,6 @@
 import express from 'express'
 import {getAllContacts, getAContacts, updateAContacts, addAContacts , deleteAContacts} from '../controllers/contacts-controller.ts'
+import tokenValidator from '../middleware/tokenValidator.ts'
 
 const contactRouter = express.Router()
  
@@ -11,6 +12,8 @@ contactRouter.route("/").post(addAContacts)
 contactRouter.route("/:id").put(updateAContacts)
 contactRouter.route("/:id").delete(deleteAContacts)
 */
+
+contactRouter.use(tokenValidator)
 
 //For shorter from line 8 to 12
 contactRouter.route("/").get(getAllContacts).post(addAContacts)
